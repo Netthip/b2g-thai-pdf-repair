@@ -1,0 +1,19 @@
+{
+  "round": 1,
+  "generated_utc": "2026-06-27T05:02:13Z",
+  "total_pages": 72,
+  "blank_pages": [
+    2,
+    4
+  ],
+  "pages_reviewed_full_res": 72,
+  "confirmed_issues": 1,
+  "pages_with_confirmed_errors": [
+    66
+  ],
+  "confirmed_by_type": {
+    "สระ/อักขระหาย + อักขระเพี้ยน (อ่านผิดจากต้นฉบับ)": 1
+  },
+  "human_review_required": 2,
+  "note": "TH-001 escaped 150 DPI full-page review and was only caught on zoom; therefore zero cannot be claimed for headings/body until Round 2 (systematic high-zoom heading sweep) and human proofread are complete."
+}
