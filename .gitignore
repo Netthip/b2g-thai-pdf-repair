@@ -1,12 +1,15 @@
-# --- Sensitive / large source material: DO NOT publish to public GitHub ---
-input/original_pdf/*.pdf
-reference/source_files_if_available/*
+# Source PDF is PUBLIC (สำนักงบประมาณ / bb.go.th) — included as baseline evidence.
+# Final deliverables included too. Only large regenerable intermediates are ignored.
+
+# --- Regenerable intermediates (large) ---
 data/page_images/*.png
 data/crops/*.png
-output/repaired_pdf/*
-output/final_delivery/*
+data/round2/*.png
+data/ocr/*.txt
+output/repaired_pdf/SAMPLE_*.pdf
 assets/original_images/*
 assets/repaired_images/*
+tessdata/
 
 # Keep folder structure
 !**/.gitkeep
@@ -21,12 +24,3 @@ venv/
 # OS
 Thumbs.db
 .DS_Store
-
-# Allow sample / redacted evidence to be committed explicitly
-!output/audit_reports/evidence/*.png
-!sample/**
-data/round2/*.png
-
-# OCR model (large binary) and raw OCR dumps
-tessdata/
-data/ocr/*.txt
