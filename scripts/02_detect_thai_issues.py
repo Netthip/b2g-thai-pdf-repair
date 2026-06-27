@@ -63,9 +63,9 @@ CONFIRMED = [
         "ข้อความที่พบ": "ตัวเลขล้านบาทบางส่วนจุดทศนิยมเลื่อน (เช่น หมุดหมาย 69,078.7 ที่ถูกคือ 69.0787 ล้านบาท)",
         "ข้อความที่ควรเป็น": "กฎผู้ตรวจ: ใช้ตัวเลขเดิม วางจุดให้เหลือ 4 หลักหลังจุด (ไม่เติม 0 ไม่แก้ค่า) เช่น 69,078.7 → 69.0787",
         "ประเภทข้อผิดพลาด": "รูปแบบ/ตำแหน่งจุดทศนิยมของตัวเลขล้านบาท (ปนกัน 2 แบบในเล่ม)",
-        "ความรุนแรง": "สูง (ผู้ใช้/สำนักงบประมาณยืนยัน)",
-        "วิธีตรวจพบ": "ดึงเลขจาก text layer + แยกหน่วยจาก OCR; ดู B2G_Numbers_Audit.xlsx คอลัมน์ 'ถ้าวางจุด4จากขวา'",
-        "สถานะ": "หน้า 22 (13 หมุดหมาย) แก้แล้วตามกฎ (69.0787 ฯลฯ, หัวเรื่อง 1,595.7147). เลขก้อนสรุป (งบรวม 3,788,000 / รายจ่ายประจำ 2,857,405.2) = ล้านบาทถูกอยู่แล้ว ไม่แตะ. หน้าจัดสรรอื่น (13,20,21) รอผู้ตรวจยืนยันว่าใช้กฎจุด-4 หรือถูกอยู่แล้ว",
+        "ความรุนแรง": "บันทึกไว้ (ผู้ตรวจตัดสินใจไม่แก้)",
+        "วิธีตรวจพบ": "ดึงเลขจาก text layer + แยกหน่วยจาก OCR; ดู B2G_Numbers_Audit.xlsx (อ้างอิงเฉย ๆ)",
+        "สถานะ": "ผู้ตรวจตัดสินใจ: คงตัวเลขตามต้นฉบับ 100% ไม่แก้/ไม่เดา (เราไม่ทราบค่าจริง) — บันทึกไว้เป็นข้อสังเกตเท่านั้น ไม่นับเป็นรายการที่ต้องแก้",
     },
     {
         "Issue ID": "TH-001",
@@ -201,7 +201,10 @@ def build_summary():
 def main():
     write_csv(CONFIRMED + HUMAN_REVIEW, os.path.join(ROOT, "data/issue_registry/issue_registry.csv"))
     write_md(CONFIRMED + HUMAN_REVIEW, os.path.join(ROOT, "data/issue_registry/issue_registry.md"))
-    write_xlsx(os.path.join(ROOT, "output/audit_reports/B2G_Original_Audit_Report.xlsx"))
+    try:
+        write_xlsx(os.path.join(ROOT, "output/audit_reports/B2G_Original_Audit_Report.xlsx"))
+    except PermissionError:
+        print("!! XLSX is open/locked — skipped (CSV/MD updated). Close Excel and re-run to refresh xlsx.")
     summary = build_summary()
     with open(os.path.join(ROOT, "data/issue_registry/audit_summary.json"), "w", encoding="utf-8") as f:
         json.dump(summary, f, ensure_ascii=False, indent=2)
