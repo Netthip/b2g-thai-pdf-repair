@@ -1,0 +1,27 @@
+# --- Sensitive / large source material: DO NOT publish to public GitHub ---
+input/original_pdf/*.pdf
+reference/source_files_if_available/*
+data/page_images/*.png
+data/crops/*.png
+output/repaired_pdf/*
+output/final_delivery/*
+assets/original_images/*
+assets/repaired_images/*
+
+# Keep folder structure
+!**/.gitkeep
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Allow sample / redacted evidence to be committed explicitly
+!output/audit_reports/evidence/*.png
+!sample/**
