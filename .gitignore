@@ -25,3 +25,4 @@ Thumbs.db
 # Allow sample / redacted evidence to be committed explicitly
 !output/audit_reports/evidence/*.png
 !sample/**
+data/round2/*.png
