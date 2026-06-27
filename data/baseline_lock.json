@@ -1,0 +1,33 @@
+{
+  "source_file": "เล่ม พรบ ประชาชน.pdf",
+  "sha256": "d304742f0d8e0971fa93affcf2beb43e6fef5e7d848f6db6e322e57aafb1b9c6",
+  "size_bytes": 70835179,
+  "page_count": 72,
+  "pdf_metadata": {
+    "format": "PDF 1.4",
+    "title": "(ร่าง) งบประมาณฉบับประชาชน 70",
+    "author": "bb yut",
+    "subject": "",
+    "keywords": "DAHKRmbPj74,BAFaiWr20iU,0",
+    "creator": "Canva",
+    "producer": "Canva",
+    "creationDate": "D:20260625095728Z",
+    "modDate": "D:20260625165901+07'00'",
+    "trapped": "",
+    "encryption": "None"
+  },
+  "python_version": "3.12.9 (tags/v3.12.9:fdb8142, Feb  4 2025, 15:27:58) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "dependencies": {
+    "fitz": "1.27.2.3",
+    "pypdf": "6.12.2",
+    "pdfplumber": "0.11.9",
+    "PIL": "12.2.0",
+    "openpyxl": "3.1.5",
+    "docx": "1.2.0",
+    "pandas": "2.2.2",
+    "pymupdf": "1.27.2.3"
+  },
+  "baseline_created_utc": "2026-06-27T04:45:38Z",
+  "note": "Source PDF is a Canva-exported infographic. Text layer is mojibake (no usable ToUnicode); audit must be visual/OCR based."
+}
