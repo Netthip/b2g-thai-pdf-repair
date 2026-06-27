@@ -1,18 +1,19 @@
 {
   "round": 1,
-  "generated_utc": "2026-06-27T06:23:23Z",
+  "generated_utc": "2026-06-27T10:13:07Z",
   "total_pages": 72,
   "blank_pages": [
     2,
     4
   ],
   "pages_reviewed_full_res": 72,
-  "confirmed_issues": 2,
+  "confirmed_issues": 3,
   "pages_with_confirmed_errors": [
     66
   ],
   "confirmed_by_type": {
     "สระ/วรรณยุกต์ลอย (renderer-dependent; Canva Thai export ไม่ robust)": 1,
+    "รูปแบบตัวเลข (ทศนิยมไม่ครบ 4 ตำแหน่งตามมาตรฐานล้านบาท)": 1,
     "สระ/อักขระหาย + อักขระเพี้ยน (อ่านผิดจากต้นฉบับ)": 1
   },
   "human_review_required": 0,
