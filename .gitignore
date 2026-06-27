@@ -26,3 +26,7 @@ Thumbs.db
 !output/audit_reports/evidence/*.png
 !sample/**
 data/round2/*.png
+
+# OCR model (large binary) and raw OCR dumps
+tessdata/
+data/ocr/*.txt

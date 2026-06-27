@@ -18,7 +18,14 @@
 - พยายามเข้าแก้ Canva ผ่าน MCP: ดีไซน์ DAHKRmbPj74 = "Not allowed" (บัญชีเชื่อมต่อไม่ใช่เจ้าของ)
   → ต้องแชร์สิทธิ์ edit ให้ vistriter@gmail.com หรือเจ้าของแก้เองตาม CANVA_FIX_GUIDE.md
 
+### Round 3 — พิสูจน์อักษร body ด้วย OCR (2026-06-27)
+- ดาวน์โหลด tha.traineddata; OCR ทั้ง 72 หน้า (tesseract tha+eng) → `data/ocr/`
+- ตรวจพจนานุกรม pythainlp (`scripts/07_body_ocr_proofread.py`): 464 flag → 277 คำจริง →
+  94 token เหลือ → ตรวจครบ = OCR เพี้ยนของคำที่ถูกต้องทั้งหมด → **body 0 errors**
+- ปิด HR-001 (body) และ HR-002 (SME) → Human Review คงค้าง = 0
+- สรุป: ทั้งเล่มมีข้อผิดพลาดจริงจุดเดียว = TH-001
+
 ### ขั้นต่อไป
-- แก้ TH-001 ใน Canva → export ใหม่ → รัน 03/04 QA เปรียบเทียบ
-- พิสูจน์อักษร body (HR-001) ก่อนรับรอง 0 ขั้นสุดท้าย
+- (กิ๊ฟ) แก้ TH-001 ใน Canva ตาม CANVA_FIX_GUIDE.md → export PDF ใหม่ → ส่งกลับ
+- (จีโฮ) รัน 03/04 ยืนยัน TH-001 หาย + ไม่มี regression → ผ่าน Quality Gate
 - เพิ่มหน้า branding ท้ายเล่ม (ฉบับ branding แยกจากฉบับทางการ)
