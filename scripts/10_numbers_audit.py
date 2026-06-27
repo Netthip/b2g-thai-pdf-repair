@@ -78,6 +78,16 @@ def to4(numstr):
     return f"{v:,.4f}"
 
 
+def point4_from_right(numstr):
+    """Reviewer's rule: keep the original digits, place the decimal so 4 digits follow it.
+    e.g. '69,078.7' -> digits '690787' -> '69.0787'."""
+    d = numstr.replace(",", "").replace(".", "")
+    if len(d) <= 4:
+        return "0." + d.zfill(4)
+    ip = d[:-4].lstrip("0") or "0"
+    return f"{int(ip):,}.{d[-4:]}"
+
+
 def main():
     doc = fitz.open(SRC)
     rows = []
@@ -105,16 +115,15 @@ def main():
                 ctx = src[max(0, idx - 8):idx + len(n) + 18].replace("\n", " ")
                 after = src[idx + len(n):idx + len(n) + 16].replace("\n", " ")
             unit, is_lb = classify(after, page_is_lb)
-            suggested = to4(n) if is_lb else n
-            changed = "ใช่" if (is_lb and suggested != n) else ""
+            cand = point4_from_right(n) if is_lb else ""
             rows.append({
                 "หน้า PDF": i + 1, "หน้าพิมพ์": (i + 1 - 6) if i + 1 > 6 else "-",
                 "ตัวเลขเดิม": n, "ทศนิยมเดิม": dec, "หน่วย(ตรวจ)": unit,
-                "รูปแบบที่ควรเป็น": suggested, "ต้องแก้": changed,
+                "ถ้าวางจุด4จากขวา": cand, "ยืนยัน(ผู้ตรวจ)": "",
                 "บริบท(OCR)": ctx.strip(),
             })
     cols = ["หน้า PDF", "หน้าพิมพ์", "ตัวเลขเดิม", "ทศนิยมเดิม", "หน่วย(ตรวจ)",
-            "รูปแบบที่ควรเป็น", "ต้องแก้", "บริบท(OCR)"]
+            "ถ้าวางจุด4จากขวา", "ยืนยัน(ผู้ตรวจ)", "บริบท(OCR)"]
 
     base = os.path.join(ROOT, "data", "issue_registry")
     with open(os.path.join(base, "numbers_audit.csv"), "w", encoding="utf-8-sig", newline="") as f:
@@ -129,7 +138,7 @@ def main():
         c.font = Font(bold=True, color="FFFFFF"); c.fill = PatternFill("solid", fgColor="1F3864")
     for r in rows:
         ws.append([r[c] for c in cols])
-        if r["ต้องแก้"] == "ใช่":
+        if r["หน่วย(ตรวจ)"] == "ล้านบาท":
             for c in ws[ws.max_row]:
                 c.fill = PatternFill("solid", fgColor="FFF2CC")
     widths = [9, 9, 16, 10, 16, 18, 8, 50]
@@ -140,20 +149,20 @@ def main():
 
     # summary
     lb = [r for r in rows if r["หน่วย(ตรวจ)"] == "ล้านบาท"]
-    need = [r for r in rows if r["ต้องแก้"] == "ใช่"]
     from collections import Counter
     bytype = Counter(r["หน่วย(ตรวจ)"] for r in rows)
     md = ["# ตารางตรวจตัวเลขทั้งเล่ม\n", f"- ตัวเลขทั้งหมด: **{len(rows)}**",
-          f"- เป็นล้านบาท: **{len(lb)}**  | ต้องจัดรูปแบบ 4 ทศนิยม: **{len(need)}**",
+          f"- ตรวจพบหน่วยล้านบาท: **{len(lb)}** (แถวเหลือง)",
+          "- คอลัมน์ 'ถ้าวางจุด4จากขวา' = ค่าตามกฎผู้ตรวจ (เลขเดิม + จุดให้เหลือ 4 หลักหลังจุด) — ใช้เป็นตัวเลือกให้ยืนยัน",
           "- แยกตามหน่วย: " + ", ".join(f"{k}={v}" for k, v in bytype.most_common()), "",
-          "| หน้า | ตัวเลขเดิม | ทศ. | หน่วย | ควรเป็น | แก้ | บริบท |",
-          "|---|---|---|---|---|---|---|"]
+          "| หน้า | ตัวเลขเดิม | ทศ. | หน่วย | ถ้าวางจุด4จากขวา | บริบท |",
+          "|---|---|---|---|---|---|"]
     for r in rows:
         md.append(f"| {r['หน้า PDF']} | {r['ตัวเลขเดิม']} | {r['ทศนิยมเดิม']} | {r['หน่วย(ตรวจ)']} | "
-                  f"{r['รูปแบบที่ควรเป็น']} | {r['ต้องแก้']} | {r['บริบท(OCR)'][:40]} |")
+                  f"{r['ถ้าวางจุด4จากขวา']} | {r['บริบท(OCR)'][:40]} |")
     open(os.path.join(base, "numbers_audit.md"), "w", encoding="utf-8").write("\n".join(md))
 
-    print(f"total={len(rows)} | ล้านบาท={len(lb)} | ต้องแก้รูปแบบ={len(need)}")
+    print(f"total={len(rows)} | ล้านบาท={len(lb)}")
     print("by unit:", dict(bytype))
 
 

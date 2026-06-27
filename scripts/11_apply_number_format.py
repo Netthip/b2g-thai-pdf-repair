@@ -30,13 +30,27 @@ DPI = 180; JPEG_Q = 88
 ISNUM = re.compile(r'^\d[\d,\.]*$')
 
 
+# Pages whose ล้านบาท numbers use the reviewer's "decimal-4-from-right" rule
+# (digits kept; decimal placed to leave 4 digits). Confirmed by reviewer: หมุดหมาย (page 22).
+POINT4_PAGES = {22}
+
+
+def point4_from_right(numstr):
+    d = numstr.replace(",", "").replace(".", "")
+    if len(d) <= 4:
+        return "0." + d.zfill(4)
+    ip = d[:-4].lstrip("0") or "0"
+    return f"{int(ip):,}.{d[-4:]}"
+
+
 def load_targets():
     t = defaultdict(dict)
     with open(os.path.join(ROOT, "data", "issue_registry", "numbers_audit.csv"),
               encoding="utf-8-sig") as f:
         for r in csv.DictReader(f):
-            if r["ต้องแก้"] == "ใช่":
-                t[int(r["หน้า PDF"])][r["ตัวเลขเดิม"]] = r["รูปแบบที่ควรเป็น"]
+            pg = int(r["หน้า PDF"])
+            if pg in POINT4_PAGES and r["หน่วย(ตรวจ)"] == "ล้านบาท":
+                t[pg][r["ตัวเลขเดิม"]] = point4_from_right(r["ตัวเลขเดิม"])
     return t
 
 
