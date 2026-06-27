@@ -1,5 +1,24 @@
 # B2G — Thai PDF Repair & Evidence Pipeline
 
+> **Auditable, reproducible repair of Thai-language errors in AI / Canva-generated PDFs.**
+
+A quality-assurance pipeline that detects and fixes Thai typographic defects — floating
+vowels & tone marks, glyph corruption, broken spacing — in a 72-page government
+*Citizens' Budget* document, with **per-page evidence** and a **versioned audit trail**.
+
+`render → audit → fix → QA → evidence`  ·  Fiscal Year 2570 (2027)  ·  72 pages  ·  public source
+
+**Highlights**
+- Detected floating Thai marks affecting ~8,022 words (renderer-dependent) → fixed for **all viewers** by high-DPI rasterization.
+- Caught a corrupted section headline (`การปฏฐูป → การปฏิรูป`) that escaped full-page review; confirmed by font-span analysis.
+- Full-document Thai proofread (OCR + dictionary) → **0 body-text errors**.
+- Numbers left **untouched** (kept as source) — flagged in a review table, never guessed.
+- Reproducible scripts, locked baseline (SHA-256), and a clean Git history as development evidence.
+
+See **[docs/BRANCHING.md](docs/BRANCHING.md)** for the branching strategy.
+
+---
+
 ระบบตรวจสอบและซ่อมข้อผิดพลาดภาษาไทยในไฟล์ PDF ที่สร้างจากเครื่องมือออกแบบ/AI
 แบบ **ตรวจสอบย้อนกลับได้ (auditable)** และ **ทำซ้ำได้ (reproducible)**
 
